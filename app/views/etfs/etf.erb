@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<title></title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="http://www.w3schools.com/lib/w3.css">
+<body>
+
+<div class="w3-container w3-green w3-margin-bottom">
+<h1><%=@etf.name%></h1>
+</div>
+
+<div class="w3-row-padding ">
+
+<div class="w3-twothird">
+  <h2><%= "#{@etf.name}"%></h2>
+  <p><%= "Inception Date: #{@etf.inception}"%></p>
+  <h3><%= "Ticker: (#{@etf.symbol})"%></h3>
+  <h4><%= "Last Price: #{@etf.price}"%></h4>
+  <br>
+
+  <h2>Report Card</h2>
+  <table class="w3-table w3-striped w3-bordered w3-border">
+  <thead class="w3-green"><th style="width:30%">Metric</th><th>Grade</th></thead>
+  <tr><td>Liquidity: </td><td><%= @etf.liquidity %></td></tr>
+  <tr><td>Expenses: </td><td><%= @etf.expenses%></td></tr>
+  <tr><td>Performance: </td><td><%= @etf.performance%></td></tr>
+  <tr><td>Volatility: </td><td><%= @etf.volatility%></td></tr>
+  <tr><td>Dividends: </td><td><%= @etf.score_dividend%></td></tr>
+  <tr><td>Concentration: </td><td><%= @etf.concentration%></td></tr>
+  <tr><td>Overall: </td><td><%= @etf.overall%></td></tr>
+  </table>
+
+  <h2>Top 10 holdings</h2>
+  <table class="w3-table w3-striped w3-bordered w3-border">
+  <thead class="w3-green"><th style="width:30%">Companies</th></thead>
+
+  <% @etf.top_10_holdings.split(",").each do |holding|%>
+  <tr><td style="width:30%"><%=holding.gsub('\n', ' ')%></td></tr>
+                  <%end%>
+  </table>
+  <h2>Sectors</h2>
+  <table class="w3-table w3-striped w3-bordered w3-border">
+  <thead class="w3-green"><th style="width:30%">Sectors</thead>
+  <% @etf.sectors.split(";").each do |sector|%>
+  <tr><td><%= sector %></td></tr>
+  <% end %>
+  </table>
+
+  <h2>Return</h2>
+  <table class="w3-table w3-striped w3-bordered w3-border">
+  <thead class="w3-green"><th style="width:30%">Period</th><th>Percentage</th></thead>
+  <tr><td>Week 1: </td><td><%= @etf.week1%></td></tr>
+  <tr><td>Week 4: </td><td><%= @etf.week4%></td></tr>
+  <tr><td>Year to Date: </td><td><%= @etf.ytd %></td></tr>
+  <tr><td>1 Year: </td><td><%= @etf.year1%></td></tr>
+  <tr><td>3 Year: </td><td><%= @etf.year3%></td></tr>
+  <tr><td>5 Year: </td><td><%= @etf.year5%></td></tr>
+  </table>
+
+  <h2>Chart</h2>
+  <table class="w3-table w3-striped w3-bordered w3-border">
+  <!-- TradingView Widget BEGIN -->
+      <script type="text/javascript" src="https://d33t3vvu2t2yu5.cloudfront.net/tv.js"></script>
+      <script type="text/javascript">
+      new TradingView.widget({
+        "width": 850,
+        "height": 510,
+        "symbol": "<%=@etf.symbol%>",
+        "interval": "D",
+        "timezone": "Etc/UTC",
+        "theme": "White",
+        "style": "1",
+        "locale": "en",
+        "toolbar_bg": "#f1f3f6",
+        "enable_publishing": false,
+        "allow_symbol_change": true,
+        "hideideas": true,
+        "show_popup_button": false,
+        "popup_width": "1000",
+        "popup_height": "650"
+      });
+      </script>
+      <!-- TradingView Widget END -->
+  </table>
+
+
+</div>
+
+<div class="w3-third w3-center">
+  <h2>About</h2>
+<p>
+  <%=@etf.about %>
+</p>
+<p>
+  for more Information, Click the button below.
+</p>
+  <button class="w3-btn w3-green"><a href="<%=@etf.info %>">Fact sheet PDF</a></button>
+
+ </div>
+
+</div>
+</body>
+</html>

@@ -5,5 +5,8 @@ if ActiveRecord::Migrator.needs_migration?
 end
 
 use Rack::MethodOverride
+use UserController
+use ListController
+use EtfController
 run ApplicationController
 # run Sinatra::Application

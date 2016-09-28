@@ -10,7 +10,12 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160926204707) do
+ActiveRecord::Schema.define(version: 20160927221055) do
+
+  create_table "etf_lists", force: :cascade do |t|
+    t.integer "etf_id"
+    t.integer "list_id"
+  end
 
   create_table "etfs", force: :cascade do |t|
     t.string "symbol"
@@ -58,6 +63,25 @@ ActiveRecord::Schema.define(version: 20160926204707) do
     t.string "top_10_holdings"
     t.string "sectors"
     t.string "market_cap"
+    t.string "info"
+  end
+
+  create_table "etfslists", force: :cascade do |t|
+    t.integer "etf_id"
+    t.integer "list_id"
+  end
+
+  create_table "lists", force: :cascade do |t|
+    t.string  "name"
+    t.integer "user_id"
+    t.string  "description"
+  end
+
+  create_table "users", force: :cascade do |t|
+    t.string "username"
+    t.string "email"
+    t.string "password_digest"
+    t.string "name"
   end
 
 end

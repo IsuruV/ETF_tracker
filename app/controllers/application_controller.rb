@@ -2,15 +2,6 @@ require './config/environment'
 require 'rack-flash'
 
 class ApplicationController < Sinatra::Base
-  # use Rack::Flash
-  # use Rack::MethodOverride
-  # register Sinatra::ActiveRecordExtension
-  # register Sinatra::ActiveRecordExtension
-  # register Sinatra::Twitter::Bootstrap::Assets
-  #
-  # enable :sessions
-  # set :session_secret, "my_application_secret"
-  # set :views, Proc.new { File.join(root, "../views/") }
 
     register Sinatra::ActiveRecordExtension
     register Sinatra::Twitter::Bootstrap::Assets
@@ -25,7 +16,7 @@ class ApplicationController < Sinatra::Base
     end
 
     get '/' do
-
+      erb :'applications/home'
     end
 
 

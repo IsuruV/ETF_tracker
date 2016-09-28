@@ -4,7 +4,7 @@ require 'open-uri'
 require 'nokogiri'
 
 class Etf < ActiveRecord::Base
-  has_many :etf_lists
+  has_many :etf_lists, class_name: EtfList
   has_many :lists, through: :etf_lists
 
   def scrap
@@ -17,7 +17,18 @@ class Etf < ActiveRecord::Base
       name = "Name"
     end
     begin
-      top_10 = page.css(".holdings-ol").css("a").text.split("\n").reject { |c| c.empty? }.push(";").to_s
+      company_arr = []
+      # top_10 = page.css(".holdings-ol").css("a").text.split("\n").reject { |c| c.empty? }.push(";").to_s
+      company_arr << page.css(".holdings-ol").css("li")[0].text
+      company_arr << page.css(".holdings-ol").css("li")[1].text
+      company_arr << page.css(".holdings-ol").css("li")[2].text
+      company_arr << page.css(".holdings-ol").css("li")[3].text
+      company_arr << page.css(".holdings-ol").css("li")[4].text
+      company_arr << page.css(".holdings-ol").css("li")[5].text
+      company_arr << page.css(".holdings-ol").css("li")[6].text
+      company_arr << page.css(".holdings-ol").css("li")[7].text
+      company_arr << page.css(".holdings-ol").css("li")[8].text
+      company_arr << page.css(".holdings-ol").css("li")[9].text
     rescue
       top_10 = "data not provided"
     end
@@ -31,12 +42,35 @@ class Etf < ActiveRecord::Base
     rescue
         market_cap = "data not provided"
     end
+    begin
+      price = page.css("span").css(".bcSimpleQuoteLastValue").text
+    rescue
+      price = self.price
+    end
+    begin
+      info= page.css("div#factsheet-collapse").css("a").first[:href]
+    rescue
+      info = "data not provided"
+    end
     self.name = name
     self.about = about
-    self.top_10_holdings = top_10
+    self.top_10_holdings = company_arr
     self.sectors = sectors
     self.market_cap = market_cap
+    self.price = price
+    self.info = info
     self.save
   end
+
+    def slug
+      @input = self.symbol.gsub(/\s|\W/,'-').downcase
+    end
+
+  def self.find_by_slug(slug)
+      Etf.all.find do |a|
+        slug == a.slug
+      end
+  end
+
 
 end

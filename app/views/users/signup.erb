@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+
+
+    <link href="/stylesheets/login.css" rel="stylesheet">
+  </head>
+  <body>
+    <script async src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js" type="text/javascript">
+        $('.message a').click(function(){
+           $('form').animate({height: "toggle", opacity: "toggle"}, "slow");
+        });
+    </script>
+    <div class="login-page">
+      <div class="form">
+        <form class="login-form" action= "/signup" method = "post">
+          <input type="text" name ="user[name]" placeholder="name"/>
+          <input type="text" name ="user[username]" placeholder="user name"/>
+          <input type="password" name ="user[password]" placeholder="password"/>
+          <input type="text" name ="user[email]" placeholder="email address"/>
+
+          <button type="submit" name="submit">Create</button>
+          <p class="message">Already registered? <a href="/login" >Sign In</a></p>
+        </form>
+
+      </div>
+    </div>
+
+  </body>
+</html>
