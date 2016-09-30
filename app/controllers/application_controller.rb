@@ -15,7 +15,7 @@ class ApplicationController < Sinatra::Base
     set :views, 'app/views'
     end
 
-    get '/' do
+    get '/home' do
       erb :'applications/home'
     end
 

@@ -1,5 +1,5 @@
 class EtfController < ApplicationController
-
+  use Rack::MethodOverride
   get '/etf' do
     if session[:user_id]
       # @tweets = Tweets.all
@@ -9,42 +9,79 @@ class EtfController < ApplicationController
     end
   end
 
-  get '/index2' do
-    erb :'/etfs/index2'
-  end
-
   get '/saftey_net' do
+    @type = "Saftey Net"
     if session[:user_id]
       @user = User.find(session[:user_id])
       @user.save
     else
       @user = nil
     end
-    @etf = Etf.all.where(:volatility => ["A+", "A"])
+    @etfs = Etf.all.where(:volatility => ["A+", "A"])
     erb :'etfs/index'
   end
 
   get '/conservative' do
-    @etf = Etf.all.where(:volatility => ["A-", "B+"])
+    @type = "Conservative"
+    if session[:user_id]
+      @user = User.find(session[:user_id])
+      @user.save
+    else
+      @user = nil
+    end
+    @etfs = Etf.all.where(:volatility => ["A-", "B+"])
     erb :'etfs/index'
   end
 
   get '/moderate' do
-    @etf = Etf.all.where(:volatility => ["B+", "B-"])
+    @type = "Moderate"
+    if session[:user_id]
+      @user = User.find(session[:user_id])
+      @user.save
+    else
+      @user = nil
+    end
+    @etfs = Etf.all.where(:volatility => ["B+", "B-"])
     erb :'etfs/index'
   end
 
   get '/aggressive' do
-    @etf = Etf.all.where(:volatility => ["C", "C-"])
+    @type = "Aggressive"
+    if session[:user_id]
+      @user = User.find(session[:user_id])
+      @user.save
+    else
+      @user = nil
+    end
+    @etfs = Etf.all.where(:volatility => ["C", "C-"])
     erb :'etfs/index'
   end
 
   get '/etf/:slug' do
-    @etf = Etf.find_by_slug(params[:slug])
-    @etf.save
+    if session[:user_id]
+      @user = User.find(session[:user_id])
+      @user.save
+    else
+      @user = nil
+    end
+    begin
+        @etf = Etf.find_by_slug(params[:slug])
+    rescue
+        @etf = Etf.find_by(symbol:params[:symbol])
+    end
+    # @etf = Etf.find_by_slug(params[:slug])
     erb :'/etfs/etf'
   end
 
-  
+  post "/etf/search" do
+    begin
+    @symbol = params[:symbol].downcase
+    redirect to "/etf/#{@symbol}"
+    rescue
+      redirect to '/home'
+    end
+  end
+
+
 
 end

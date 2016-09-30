@@ -5,30 +5,17 @@
 <link rel="stylesheet" href="http://www.w3schools.com/lib/w3.css">
 <body>
   <div class="w3-container">
-    <h2>Right-aligned Dropdown</h2>
-    <p>Use the w3-right class to float the dropdown to the right, and use CSS to position the dropdown content (right:0 will make the dropdown menu go from right to left).</p>
-
-    <div class="w3-dropdown-hover w3-right">
-      <button class="w3-btn w3-blue">Add to Portfolio</button>
-      <div class="w3-dropdown-content w3-border" style="right:0">
-        <% @user.lists.each do |list|%>
-        <form action="/lists/add_etfs" method="post">
-          <input type="button" name="list[name]" value="<%= list.name%>">
-          <param name="list[name]" value="<%=list.name%>">
-    
-        </form>
-        <% end %>
-      </div>
-    </div>
-
+    <h2></h2>
+    <p></p>
     <div class="w3-clear"></div>
-  <h2>Hoverable List</h2>
-  <p>The w3-hoverable class adds a grey background color to all list items when you mouse over them:</p>
+  <h2 class = "w3-green w3-center"><%= @type %> Electronically Traded Funds</h2>
+  <p></p>
 
   <ul class="w3-ul w3-hoverable" >
-    <% @etf.each do |e|%>
-    <input type="checkbox" name="etfs[id]" value="<%=e.id%>">
+    <% @etfs.each do |e|%>
+
     <li class="w3-hover-green"><a href="/etf/<%=e.slug%>"> <%= e.name%> </a></li>
+    <br>
         <% end %>
   </ul>
 </div>

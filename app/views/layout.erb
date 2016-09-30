@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html>
-<title>W3.CSS</title>
+
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="http://www.w3schools.com/lib/w3.css">
+
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
 <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css">
@@ -18,13 +18,26 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}
   <li class="w3-hide-medium w3-hide-large w3-opennav w3-right">
     <a class="w3-padding-large w3-hover-white w3-large w3-black" href="javascript:void(0);" onclick="myFunction()" title="Toggle Navigation Menu"><i class="fa fa-bars"></i></a>
   </li>
-  <li><a href="/" class="w3-padding-large w3-white">Home</a></li>
-  <li class="w3-hide-small"><a onclick="document.getElementById('id01').style.display='block'" class="w3-padding-large w3-hover-white">Login</a></li>
-  <li class="w3-hide-small"><a href="#" class="w3-padding-large w3-hover-white">Sign Up</a></li>
+  <li><a href="/home" class="w3-padding-large w3-black">Home</a></li>
+  <% if !session[:user_id]%>
+  <li class="w3-hide-small"><a onclick="document.getElementById('id01').style.display='block'" class="w3-padding-large w3-hover-white"><%="Login"%></a></li>
+  <% elsif session[:user_id] %>
+  <li><a href="/logout" class="w3-padding-large w3-black"><%="Log Out"%></a></li>
+  <% end %>
+  <% if !session[:user_id]%>
+  <li class="w3-hide-small"><a onclick="document.getElementById('id03').style.display='block'" class="w3-padding-large w3-hover-white">Sign Up</a></li>
+  <% elsif session[:user_id] %>
+  <li><a href="/users/<%=session[:user_id]%>" class="w3-padding-large w3-black"><%="My Portfolios"%></a></li>
+  <% end %>
   <li class="w3-navitem">
-  <input type="text" class="w3-input w3-border-0 w3-padding-medium w3-left-align w3-large" placeholder="Search by Symbol..">
+    <form class="" action="/etf/search" method="post">
+      <input type="text" class="w3-input w3-border-0 w3-padding-medium w3-left-align w3-large" placeholder="Search by Symbol.." name = "symbol">
+    </form>
   </li>
+
+  <a href="#"></a>
   <!-- Login button -->
+  <li>
   <div id="id01" class="w3-modal">
     <div class="w3-modal-content w3-card-8 w3-animate-zoom" style="max-width:600px">
 
@@ -46,11 +59,44 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}
 
       <div class="w3-container w3-border-top w3-padding-16 w3-light-grey">
         <button onclick="document.getElementById('id01').style.display='none'" type="button" class="w3-btn w3-red">Cancel</button>
-        <span class="w3-right w3-padding w3-hide-small">Forgot <a href="#">password?</a></span>
       </div>
 
     </div>
+    </li>
   <!-- Login button end -->
+
+  <!--  Sign up button -->
+  <li>
+  <div id="id03" class="w3-modal">
+    <div class="w3-modal-content w3-card-8 w3-animate-zoom" style="max-width:600px">
+
+      <div class="w3-center"><br>
+        <span onclick="document.getElementById('id03').style.display='none'" class="w3-closebtn w3-hover-red w3-container w3-padding-8 w3-display-topright" title="Close Modal">×</span>
+
+      </div>
+
+      <form class="w3-container" action= "/signup" method = "post">
+        <div class="w3-section">
+          <label><b>Name</b></label>
+            <input class="w3-input w3-border w3-margin-bottom" type="text" placeholder="Enter Your Name" name = "user[name]" required>
+          <label><b>Email</b></label>
+          <input class="w3-input w3-border w3-margin-bottom" type="text" placeholder="Enter Email" name = "user[email]" required>
+          <label><b>Username</b></label>
+          <input class="w3-input w3-border w3-margin-bottom" type="text" placeholder="Enter Username" name = "user[username]" required>
+          <label><b>Password</b></label>
+          <input class="w3-input w3-border" type="text" placeholder="Enter Password" name = "user[password]" required>
+          <button class="w3-btn-block w3-green w3-section w3-padding" type="submit">Sign Up</button>
+
+        </div>
+      </form>
+
+      <div class="w3-container w3-border-top w3-padding-16 w3-light-grey">
+        <button onclick="document.getElementById('id03').style.display='none'" type="button" class="w3-btn w3-red">Cancel</button>
+      </div>
+
+    </div>
+    </li>
+  <!--  Sign up buton end -->
 
 </ul>
 
@@ -64,19 +110,19 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}
     <li><a class="w3-padding-large" href="#">Link 4</a></li>
   </ul>
 </div>
-
+<br>
+<br>
+<br>
+<br>
 <%= yield %>
-
+<br>
 <!-- Footer -->
 <footer class="w3-container w3-padding-64 w3-center w3-opacity">
   <div class="w3-xlarge w3-padding-32">
-   <a href="#" class="w3-hover-text-indigo"><i class="fa fa-facebook-official"></i></a>
-   <a href="#" class="w3-hover-text-green"><i class="fa fa-pinterest-p"></i></a>
-   <a href="#" class="w3-hover-text-light-blue"><i class="fa fa-twitter"></i></a>
-   <a href="#" class="w3-hover-text-grey"><i class="fa fa-flickr"></i></a>
-   <a href="#" class="w3-hover-text-indigo"><i class="fa fa-linkedin"></i></a>
- </div>
- <p>Powegreen by <a href="http://www.w3schools.com/w3css/default.asp" target="_blank">w3.css</a></p>
+    <br>
+    <br>
+  
+ <p> <a href="http://www.w3schools.com/w3css/default.asp" target="_blank"></a></p>
 </footer>
 
 <script>

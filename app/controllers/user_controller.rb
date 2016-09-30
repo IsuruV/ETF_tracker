@@ -17,7 +17,7 @@ class UserController < ApplicationController
         @user.save
         session[:user_id] = @user.id
 
-        redirect to '/users/:id'
+        redirect to "users/#{@user.id}"
       end
 
   end
@@ -46,14 +46,17 @@ class UserController < ApplicationController
 
   get '/logout' do
     session.destroy
-    redirect to '/login'
+    redirect to '/home'
   end
 
   get "/users/:id" do
+    if session[:user_id]
     @user = User.find(session[:user_id])
     @lists = List.all.where(:id => [@user.lists.ids])
-    # @tweets = Tweet.find(user_id: @user.id)
     erb :'/lists/lists'
+  else
+    redirect to '/home'
+  end
   end
 
 end

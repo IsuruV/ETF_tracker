@@ -62,6 +62,12 @@ class Etf < ActiveRecord::Base
     self.save
   end
 
+  def self.update_etfs
+    Etf.all.each do |etf|
+      etf.scrap
+    end
+  end
+
     def slug
       @input = self.symbol.gsub(/\s|\W/,'-').downcase
     end

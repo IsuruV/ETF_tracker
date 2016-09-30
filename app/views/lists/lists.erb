@@ -6,28 +6,54 @@
 <body>
 
 <div class="w3-container">
-  <h2>Colored Table Heading</h2>
-  <p>Use any of the w3-color classes to add a color to the table.</p>
+  <h2>Hello, <%=@user.name%></h2>
+  <p></p>
+  <div class="w3-dropdown-hover w3-center ">
+  <button class="w3-btn w3-black w3-large">Search Etfs</button>
+  <div class="w3-dropdown-content w3-border w3-center w3-large w3-btn-block" >
+    <a class = "w3-center w3-block" href="/saftey_net">Saftey Net</a>
+    <a class = "w3-center w3-block" href="/conservative">Conservative</a>
+    <a class = "w3-center w3-block" href="/moderate'">Moderate</a>
+    <a class = "w3-center w3-block" href="/aggressive">Aggressive</a>
+  </div>
+  </div>
+  <br>
+  <br>
+  <button class="w3-btn-block w3-blue"><a href="/lists/new">Create a New Portfolio</a></button>
+  <br>
+  <br>
   <% if !@lists.empty? %>
   <%@lists.each do |list| %>
   <table class="w3-table w3-striped w3-border">
     <thead>
-      <tr class="w3-red">
-          <th><%= list.name %></th>
+      <tr class="w3-green">
+          <th>
+            <form action="/lists/<%=list.id%>/delete" method="post">
+              <input type="hidden" name="_method" value="DELETE">
+              <button class="w3-btn w3-right w3-small" type="submit" name="Delete">Delete List</button>
+            </form>
+            <%= list.name %>
+          </th>
+
 
       </tr>
     </thead>
     <tr>
-      <td> <%= list.description%> </td>
+      <td>
+        <h3> <%= list.description%> </h3>
+      </td>
     </tr>
-    <tr>
       <% list.etfs.each do |etf|%>
-
-        <td><a href="/etf/<%=etf.slug%>"><%= etf.name%></a></td>
-
+      <tr>
+        <td>
+          <form action="/lists/<%=list.id%>/etfs/<%=etf.id%>/delete" method="post">
+            <input type="hidden" name="_method" value="DELETE">
+            <button class="w3-btn w3-right w3-tiny" type="submit" name="Delete">Delete Etf</button>
+          </form>
+          <a href="/etf/<%=etf.slug%>"><%= etf.name%></a>
+          </td>
+          </tr>
       <% end %>
-    </tr>
-
   </table>
   <br>
   <br>
@@ -35,6 +61,8 @@
   <% end %>
   <% end %>
 </div>
+<br>
 
+<br>
 </body>
 </html>

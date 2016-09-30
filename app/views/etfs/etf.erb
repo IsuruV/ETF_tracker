@@ -1,3 +1,5 @@
+
+<!--  -->
 <!DOCTYPE html>
 <html>
 <title></title>
@@ -6,13 +8,50 @@
 <body>
 
 <div class="w3-container w3-green w3-margin-bottom">
-<h1><%=@etf.name%></h1>
+<h1><%=@etf.name%><button class= "w3-btn w3-blue w3-right w3-margin-bottom " onclick="document.getElementById('id02').style.display='block'" class="w3-btn w3-blue w3-large">Add to Portfolio</button></h1>
 </div>
+<div id="id02" class="w3-modal">
+<div class="w3-modal-content w3-card-8 w3-animate-zoom" style="max-width:600px">
 
+  <div class="w3-center"><br>
+    <span onclick="document.getElementById('id02').style.display='none'" class="w3-closebtn w3-hover-red w3-container w3-padding-8 w3-display-topright" title="Close Modal">×</span>
+
+  </div>
+
+  <form class="w3-container" action="/lists/add_etfs" method = "POST">
+    <input type="hidden" name="_method" value="PATCH">
+    <div class="w3-section">
+      <p>
+        <input id="<%= @etf.name %>" type="hidden" name="etf[id]" value="<%= @etf.id %>">
+        Add <%=@etf.symbol %> to one of your portfolios
+      </p>
+      <% if @user != nil %>
+      <% @user.lists.each do |list|%>
+        <!-- <button type="submit" name="list[name]" value="<%= list.name%>"><%=list.name%></button> -->
+        <p>
+          <input id="<%= list.name %>" type="checkbox" name="list[name]" value="<%=list.id%>" checked = "<%='checked' if list.etfs.ids.include?(@etf.id) %>"><%=list.name %></input>
+        </p>
+      <% end %>
+      <% else %>
+         Login or Create an Account
+      <% end %>
+      <% if @user != nil %>
+        <button type="submit" name="submit">Add to Portfolio</button>
+
+      <% end %>
+    </div>
+  </form>
+
+  <div class="w3-container w3-border-top w3-padding-16 w3-light-grey">
+    <button onclick="document.getElementById('id02').style.display='none'" type="button" class="w3-btn w3-red">Cancel</button>
+
+  </div>
+
+</div>
+</div>
 <div class="w3-row-padding ">
 
 <div class="w3-twothird">
-  <h2><%= "#{@etf.name}"%></h2>
   <p><%= "Inception Date: #{@etf.inception}"%></p>
   <h3><%= "Ticker: (#{@etf.symbol})"%></h3>
   <h4><%= "Last Price: #{@etf.price}"%></h4>
@@ -87,14 +126,14 @@
 </div>
 
 <div class="w3-third w3-center">
-  <h2>About</h2>
+  <h2>Strategy</h2>
 <p>
   <%=@etf.about %>
 </p>
 <p>
   for more Information, Click the button below.
 </p>
-  <button class="w3-btn w3-green"><a href="<%=@etf.info %>">Fact sheet PDF</a></button>
+  <button class="w3-btn w3-green w3-large"><a href="<%=@etf.info %>">Fact sheet PDF</a></button>
 
  </div>
 
