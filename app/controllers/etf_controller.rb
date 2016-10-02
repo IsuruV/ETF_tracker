@@ -8,6 +8,28 @@ class EtfController < ApplicationController
       redirect to '/login'
     end
   end
+  # get '/etfs' do
+  #   if session[:user_id]
+  #     @user = User.find(session[:user_id])
+  #   else
+  #     @user = nil
+  #   end
+  #   if params[:choice] == "saftey_net"
+  #     @etfs = Etf.all.where(:volatility => ["A+", "A"])
+  #     erb :'etfs/index'
+  #   elsif params[:choice] == "conservative"
+  #     @etfs = Etf.all.where(:volatility => ["A-", "B+"])
+  #     erb :'etfs/index'
+  #   elsif params[:choice] == "moderate"
+  #     @etfs = Etf.all.where(:volatility => ["B+", "B-"])
+  #     erb :'etfs/index'
+  #   elsif params[:choice] == "aggressive"
+  #     @etfs = Etf.all.where(:volatility => ["C", "C-"])
+  #     erb :'etfs/index'
+  #   else
+  #     redirect to '/home'
+  #   end
+  # end
 
   get '/saftey_net' do
     @type = "Saftey Net"

@@ -15,6 +15,7 @@ gem 'rack-flash3'
 gem 'sinatra-twitter-bootstrap', :require => 'sinatra/twitter-bootstrap'
 gem 'nokogiri'
 gem 'require_all'
+# gem 'colorize'
 
 group :test do
   gem 'rspec'

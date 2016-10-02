@@ -17,30 +17,35 @@
     <span onclick="document.getElementById('id02').style.display='none'" class="w3-closebtn w3-hover-red w3-container w3-padding-8 w3-display-topright" title="Close Modal">×</span>
 
   </div>
-
-  <form class="w3-container" action="/lists/add_etfs" method = "POST">
-    <input type="hidden" name="_method" value="PATCH">
-    <div class="w3-section">
-      <p>
-        <input id="<%= @etf.name %>" type="hidden" name="etf[id]" value="<%= @etf.id %>">
-        Add <%=@etf.symbol %> to one of your portfolios
-      </p>
+<form class="w3-container" action="/lists/add_etfs" method = "POST">
+  <input type="hidden" name="_method" value="PATCH">
+  <div class="w3-section">
+    <p>
+      <input id="<%= @etf.name %>" type="hidden" name="etf[id]" value="<%= @etf.id %>">
       <% if @user != nil %>
-      <% @user.lists.each do |list|%>
-        <!-- <button type="submit" name="list[name]" value="<%= list.name%>"><%=list.name%></button> -->
-        <p>
-          <input id="<%= list.name %>" type="checkbox" name="list[name]" value="<%=list.id%>" checked = "<%='checked' if list.etfs.ids.include?(@etf.id) %>"><%=list.name %></input>
-        </p>
-      <% end %>
+      <% if @user.lists.empty?%>
+        <a href="/lists/new">Create a portfolio.</a>
       <% else %>
-         Login or Create an Account
-      <% end %>
-      <% if @user != nil %>
-        <button type="submit" name="submit">Add to Portfolio</button>
+      Add <%=@etf.symbol %> to one of your portfolios.
+        <% end %>
+    </p>
+    <% end %>
+    <% if @user != nil %>
+    <% @user.lists.each do |list|%>
+      <!-- <button type="submit" name="list[name]" value="<%= list.name%>"><%=list.name%></button> -->
+      <p>
+        <input id="<%= list.name %>" type="checkbox" name="list[name]" value="<%=list.id%>" checked = "<%='checked' if list.etfs.ids.include?(@etf.id) %>"><%=list.name %></input>
+      </p>
+    <% end %>
+    <% else %>
+       Login or Create an Account.
+    <% end %>
+    <% if @user != nil && !@user.lists.empty?%>
+      <button type="submit" name="submit">Add to Portfolio</button>
 
-      <% end %>
-    </div>
-  </form>
+    <% end %>
+  </div>
+</form>
 
   <div class="w3-container w3-border-top w3-padding-16 w3-light-grey">
     <button onclick="document.getElementById('id02').style.display='none'" type="button" class="w3-btn w3-red">Cancel</button>
